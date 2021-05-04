@@ -46,7 +46,6 @@ Returns a list of reviews for a particular product. This list does not include a
           "id": 2,
           "url": "urlplaceholder/review_5_photo_number_2.jpg"
         },
-        // ...
       ]
     },
     {
@@ -61,7 +60,6 @@ Returns a list of reviews for a particular product. This list does not include a
       "helpfulness": 5,
       "photos": [],
     },
-    // ...
   ]
 }
 ```
@@ -80,11 +78,9 @@ Returns a list of reviews for a particular product. This list does not include a
     2: 1,
     3: 1,
     4: 2,
-    // ...
   },
   "recommended": {
     0: 5
-    // ...
   },
   "characteristics": {
     "Size": {
@@ -99,7 +95,6 @@ Returns a list of reviews for a particular product. This list does not include a
       "id": 16,
       "value": "4.0000"
     },
-    // ...
 }
 ```
 
@@ -139,7 +134,6 @@ Returns a list of reviews for a particular product. This list does not include a
           "id": 2,
           "url": "urlplaceholder/review_5_photo_number_2.jpg"
         },
-        // ...
       ]
     }
 ```
