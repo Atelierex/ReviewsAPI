@@ -1,10 +1,17 @@
 ## Reviews API
 
-### Get restaurant info
-  * GET `/api/restaurants/:id`
+### About
 
-**Path Parameters:**
-  * `id` restaurant id
+### Technologies used
+
+### List Reviews
+Returns a list of reviews for a particular product. This list does not include any reported reviews.
+  * GET `/api/reviews`
+
+**Query Parameters:**
+  * `product_id` Specifies the product for which to retrieve reviews.
+  * `count` Specifies how many results per page to return. Default 5.
+  * `sort` Changes the sort order of reviews to be based on "newest", "helpful", or "relevant"
 
 **Success Status Code:** `200`
 
