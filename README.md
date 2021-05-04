@@ -7,7 +7,7 @@
   * Express
 
 ### Schema
-
+![Schema Image](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/SQL%20Schema.png)
 
 ### List Reviews
 Returns a list of reviews for a particular product. This list does not include any reported reviews.
