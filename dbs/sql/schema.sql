@@ -1,136 +1,62 @@
--- ---
--- Globals
--- ---
+DROP DATABASE IF EXISTS sdc;
 
--- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
--- SET FOREIGN_KEY_CHECKS=0;
+USE sdc;
 
--- ---
--- Table 'Reviews'
--- List of reviews
--- ---
-
-DROP TABLE IF EXISTS `Reviews`;
+DROP TABLE IF EXISTS Products;
 		
-CREATE TABLE `Reviews` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `rating` TINYINT NOT NULL DEFAULT NULL,
-  `summary` MEDIUMTEXT(50) NULL DEFAULT NULL,
-  `recommend` BOOLEAN NOT NULL,
-  `response` MEDIUMTEXT NULL DEFAULT NULL,
-  `body` MEDIUMTEXT NULL DEFAULT NULL,
-  `date` DATETIME NOT NULL DEFAULT 'NULL',
-  `reviewer_name` VARCHAR(20) NULL DEFAULT NULL,
-  `reviewer_email` VARCHAR NULL DEFAULT NULL,
-  `helpfulness` TINYINT NULL DEFAULT NULL,
-  `product_id` INTEGER NOT NULL DEFAULT NULL,
-  `reported` BOOLEAN NOT NULL,
-  PRIMARY KEY (`id`)
-)
-
--- ---
--- Table 'Product'
--- 
--- ---
-
-DROP TABLE IF EXISTS `Product`;
-		
-CREATE TABLE `Product` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE Products (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (id)
 );
 
--- ---
--- Table 'characteristics_review'
--- Characteristics about the product being reviewed. Part of the Reviews metadata
--- ---
-
-DROP TABLE IF EXISTS `characteristics_review`;
+DROP TABLE IF EXISTS Reviews;
 		
-CREATE TABLE `characteristics_review` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `review_id` INTEGER NULL DEFAULT NULL,
-  `characteristic_id` INTEGER NOT NULL DEFAULT NULL,
-  `value` VARCHAR NOT NULL DEFAULT 'NULL',
-  PRIMARY KEY (`id`)
-)
-
--- ---
--- Table 'characteristics_product'
--- 
--- ---
-
-DROP TABLE IF EXISTS `characteristics_product`;
-		
-CREATE TABLE `characteristics_product` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `product_id` INTEGER NOT NULL DEFAULT NULL,
-  `characteristic_id` INTEGER NOT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE Reviews (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  product_id INT UNSIGNED NOT NULL,
+  rating TINYINT NOT NULL,
+  summary VARCHAR(50) NOT NULL,
+  recommend BOOLEAN NOT NULL,
+  response VARCHAR(1000),
+  body VARCHAR(1000) NOT NULL,
+  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  reviewer_name VARCHAR(30) NOT NULL,
+  reviewer_email VARCHAR(60) NOT NULL,
+  helpfulness TINYINT NOT NULL,
+  reported BOOLEAN NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (product_id) REFERENCES Products (id) ON DELETE CASCADE
 );
 
--- ---
--- Table 'characteristics'
--- 
--- ---
-
-DROP TABLE IF EXISTS `characteristics`;
+DROP TABLE IF EXISTS Characteristics;
 		
-CREATE TABLE `characteristics` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `characteristic` VARCHAR NOT NULL DEFAULT 'NULL',
-  PRIMARY KEY (`id`)
+CREATE TABLE Characteristics (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  product_id INT UNSIGNED NOT NULL,
+  characteristic_name VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (product_id) REFERENCES Products (id) ON DELETE CASCADE
 );
 
--- ---
--- Table 'Photos'
--- Photos array of a review
--- ---
-
-DROP TABLE IF EXISTS `Photos`;
+DROP TABLE IF EXISTS Characteristic_Reviews;
 		
-CREATE TABLE `Photos` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `url` VARCHAR NULL DEFAULT NULL,
-  `review_id` INTEGER NOT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE Characteristic_Reviews (
+  id INTEGER NOT NULL AUTO_INCREMENT,
+  review_id INTEGER NULL,
+  characteristic_id INTEGER NOT NULL,
+  value VARCHAR NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (review_id) REFERENCES Reviews (id) ON DELETE CASCADE,
+  FOREIGN KEY (characteristic_id) REFERENCES Characteristics (id) ON DELETE CASCADE
+);
+
+
+DROP TABLE IF EXISTS Photos;
+		
+CREATE TABLE Photos (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  photo_url VARCHAR(1000) NULL,
+  review_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (review_id) REFERENCES Reviews (id) ON DELETE CASCADE
 )
-
--- ---
--- Foreign Keys 
--- ---
-
-ALTER TABLE `Reviews` ADD FOREIGN KEY (product_id) REFERENCES `Product` (`id`);
-ALTER TABLE `characteristics_review` ADD FOREIGN KEY (review_id) REFERENCES `Reviews` (`id`);
-ALTER TABLE `characteristics_review` ADD FOREIGN KEY (characteristic_id) REFERENCES `characteristics` (`id`);
-ALTER TABLE `characteristics_product` ADD FOREIGN KEY (product_id) REFERENCES `Product` (`id`);
-ALTER TABLE `characteristics_product` ADD FOREIGN KEY (characteristic_id) REFERENCES `characteristics` (`id`);
-ALTER TABLE `Photos` ADD FOREIGN KEY (review_id) REFERENCES `Reviews` (`id`);
-
--- ---
--- Table Properties
--- ---
-
--- ALTER TABLE `Reviews` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Product` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `characteristics_review` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `characteristics_product` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `characteristics` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Photos` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- ---
--- Test Data
--- ---
-
--- INSERT INTO `Reviews` (`id`,`rating`,`summary`,`recommend`,`response`,`body`,`date`,`reviewer_name`,`reviewer_email`,`helpfulness`,`product_id`,`reported`) VALUES
--- ('','','','','','','','','','','','');
--- INSERT INTO `Product` (`id`) VALUES
--- ('');
--- INSERT INTO `characteristics_review` (`id`,`review_id`,`characteristic_id`,`value`) VALUES
--- ('','','','');
--- INSERT INTO `characteristics_product` (`id`,`product_id`,`characteristic_id`) VALUES
--- ('','','');
--- INSERT INTO `characteristics` (`id`,`characteristic`) VALUES
--- ('','');
--- INSERT INTO `Photos` (`id`,`url`,`review_id`) VALUES
--- ('','','');

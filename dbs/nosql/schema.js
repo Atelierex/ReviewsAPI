@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const db = mongoose.connection;
@@ -7,8 +8,8 @@ db.once('open', function() {
   // we're connected!
 });
 
-const reviewSchema = new mongoose.Schema({
-  review_id: Number,
+const reviewSchema = new Schema({
+  review_id: {type: Number, unique: true},
   product_id: Number,
   rating: Number,
   summary: String,
@@ -18,12 +19,12 @@ const reviewSchema = new mongoose.Schema({
   date: Date,
   reviewer_name: String,
   helpfulness: Number,
-  photos: [{}],
+  photos: [{}], // do I need to create an additional schema for an array of object?
 });
 
 const Review = mongoose.model('review', reviewSchema);
 
-const metaSchema = new mongoose.Schema({
+const metaSchema = new Schema({
   product_id: Number,
   ratings: {
     "1": Number,
