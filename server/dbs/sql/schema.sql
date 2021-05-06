@@ -1,4 +1,6 @@
-CREATE DATABASE IF NOT EXISTS sdc;
+DROP DATABASE IF EXISTS sdc;
+
+CREATE DATABASE sdc;
 
 USE sdc;
 		
@@ -11,15 +13,15 @@ CREATE TABLE IF NOT EXISTS Reviews (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   product_id INT UNSIGNED NOT NULL,
   rating TINYINT NOT NULL,
-  summary VARCHAR(50) NOT NULL,
-  recommend BOOLEAN NOT NULL,
-  response VARCHAR(1000),
-  body VARCHAR(1000) NOT NULL,
   review_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  summary VARCHAR(50) NOT NULL,
+  body VARCHAR(1000) NOT NULL,
+  recommend BOOLEAN NOT NULL,
+  reported BOOLEAN NOT NULL,
   reviewer_name VARCHAR(30) NOT NULL,
   reviewer_email VARCHAR(60) NOT NULL,
+  response VARCHAR(1000),
   helpfulness TINYINT NOT NULL,
-  reported BOOLEAN NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE CASCADE
 );
@@ -31,12 +33,12 @@ CREATE TABLE IF NOT EXISTS Characteristics (
   PRIMARY KEY (id),
   FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE CASCADE
 );
-		
+
 CREATE TABLE IF NOT EXISTS Characteristic_Reviews (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  review_id INT UNSIGNED NOT NULL,
   characteristic_id INT UNSIGNED NOT NULL,
-  characteristic_value VARCHAR(20) NOT NULL,
+  review_id INT UNSIGNED NOT NULL,
+  characteristic_value INT UNSIGNED NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (review_id) REFERENCES Reviews(id) ON DELETE CASCADE,
   FOREIGN KEY (characteristic_id) REFERENCES Characteristics(id) ON DELETE CASCADE
@@ -44,8 +46,8 @@ CREATE TABLE IF NOT EXISTS Characteristic_Reviews (
 		
 CREATE TABLE IF NOT EXISTS Photos (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  photo_url VARCHAR(1000) NOT NULL,
   review_id INT UNSIGNED NOT NULL,
+  photo_url VARCHAR(1000) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (review_id) REFERENCES Reviews(id) ON DELETE CASCADE
 )
