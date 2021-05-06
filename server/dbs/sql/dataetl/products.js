@@ -2,12 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
-async function productsETL() {
+async function cleanProducts() {
   const source = path.join(__dirname, '../../../dataset/product.csv');
   const destination = path.join(__dirname, '../../../dataset/cleanProduct.csv');
   const inStream = fs.createReadStream(source);
   const outStream = fs.createWriteStream(destination);
-
+  outStream.write('id\n');
   const rl = readline.createInterface({
     input: inStream,
     output: outStream,
@@ -17,9 +17,9 @@ async function productsETL() {
   rl.on('line', (line) => {
     const row = line.split(',');
     // check if product id is a positive number
-    if (isNaN(row[0] || row[0] < 1)) return;
+    if (isNaN(row[0]) || row[0] < 1) return;
     outStream.write(`${row[0]}\n`);
   })
 }
 
-productsETL();
+cleanProducts();

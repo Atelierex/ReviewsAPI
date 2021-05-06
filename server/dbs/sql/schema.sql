@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Reviews (
   reported BOOLEAN NOT NULL,
   reviewer_name VARCHAR(30) NOT NULL,
   reviewer_email VARCHAR(60) NOT NULL,
-  response VARCHAR(1000),
+  response VARCHAR(100),
   helpfulness TINYINT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE CASCADE
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS Characteristic_Reviews (
 CREATE TABLE IF NOT EXISTS Photos (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   review_id INT UNSIGNED NOT NULL,
-  photo_url VARCHAR(1000) NOT NULL,
+  photo_url VARCHAR(300) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (review_id) REFERENCES Reviews(id) ON DELETE CASCADE
 )
