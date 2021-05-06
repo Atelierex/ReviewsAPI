@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 var db = require('./dbs/sql/index.js');
-const port = 3000
+const port = 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World!');
 })
 
 app.listen(port, () => {
