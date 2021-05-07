@@ -1,17 +1,19 @@
 USE sdc;
--- Products 997483
--- LOAD DATA LOCAL INFILE '../../dataset/product.csv' 
--- INTO TABLE Products 
--- FIELDS TERMINATED BY ',' 
--- ENCLOSED BY '"'
--- LINES TERMINATED BY '\n'
+-- Products 997483 -> 997483
+LOAD DATA LOCAL INFILE '../../dataset/cleanProducts.csv' 
+INTO TABLE Products 
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
 
--- Reviews 5746049
--- LOAD DATA LOCAL INFILE '../../dataset/reviews.csv' 
--- INTO TABLE Reviews 
--- FIELDS TERMINATED BY ',' 
--- ENCLOSED BY '"'
--- LINES TERMINATED BY '\n'
+-- Reviews 5746049 -> 3035048
+LOAD DATA LOCAL INFILE '../../dataset/cleanReviews.csv' 
+INTO TABLE Reviews 
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
 
 -- -- Characteristics 3331029
 -- LOAD DATA LOCAL INFILE '../../dataset/characteristics.csv' 
@@ -19,17 +21,19 @@ USE sdc;
 -- FIELDS TERMINATED BY ',' 
 -- ENCLOSED BY '"'
 -- LINES TERMINATED BY '\n'
+-- IGNORE 1 ROWS;
 
--- -- Characteristic_Reviews
+-- -- Characteristic_Reviews ~19 million
 -- LOAD DATA LOCAL INFILE '../../dataset/characteristic_reviews.csv' 
--- INTO TABLE Characteristic_Reviews 
+-- INTO TABLE Characteristic_Reviews
 -- FIELDS TERMINATED BY ',' 
--- ENCLOSED BY '"'
 -- LINES TERMINATED BY '\n'
+-- IGNORE 1 ROWS;
 
--- -- Photos
--- LOAD DATA LOCAL INFILE '../../dataset/reviews_photos.csv' 
+-- -- Photos 1420183
+-- LOAD DATA LOCAL INFILE '../../dataset/cleanPhotos.csv' 
 -- INTO TABLE Photos 
 -- FIELDS TERMINATED BY ',' 
 -- ENCLOSED BY '"'
 -- LINES TERMINATED BY '\n'
+-- IGNORE 1 ROWS;
