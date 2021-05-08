@@ -17,7 +17,6 @@ async function cleanReviews() {
 
   rl.on('line', (line) => {
     const row = line.split(',');
-    // console.log(row);
     // check if row.length has all the fields (length = 12)
     if (row.length !== 12) return;
     // id and product_id should be positive number
@@ -25,38 +24,36 @@ async function cleanReviews() {
     if (isNaN(row[1]) || row[1] < 1) return;
     // rating should be in range 1 and 5
     if (isNaN(row[2]) || row[2] < 1 || row[2] > 5) return;
-    if (isNaN(row[3]) || row[3].length !== 13) {
-      return;
-    } else {
-      row[3] = convertEpochToTimestamp(row[3]);
-    }
-    // summary should not be over 50 characters or less than 2, not a boolean
-    if (row[4].length > 50 || row[4].length < 2 || row[4] === 'true' || row[4] === 'false') return;
-    // body should not be over 1000 characters or less than 2, not a boolean
-    if (row[5].length > 1000 || row[5].length < 2 || row[4] === 'true' || row[4] === 'false') return;
-    // recommend should be a boolean (true, false, 0, 1)
-    if (row[6] !== 'true' && row[6] !== 'false' && row[6] != 1 && row[6] != 0) return;
-    // reported should be a boolean (true, false, 0, 1)
-    if (row[7] !== 'true' && row[7] !== 'false' && row[7] != 1 && row[7] != 0) return;
-    // reviewer_name should not be null or over 30 characters
-    if (row[8] === null || row[8].length > 30) return;
+    // parse review date to correct timestamp format
+    row[3] = parseDate(row[3]);
+    if (row[3] === null || row[3].length === 0) return; 
+    // summary should not be over 500 characters
+    if (row[4].length > 500) return;
+    // body should not be over 1000 characters
+    if (row[5].length > 1000) return;
+    // recommend should be a boolean (true, false)
+    if (row[6].toLowercase() !== 'true' && row[6].toLowercase() !== 'false') return;
+    // reported should be a boolean (true, false)
+    if (row[7].toLowercase() !== 'true' && row[7].toLowercase() !== 'false') return;
+    // reviewer_name should not be null or over 60 characters
+    if (row[8] === null || row[8].length > 60) return;
     // reviewer_email should not be null or over 60 characters
     if (row[9] === null || row[9].length > 60) return;
     // response should not be over 100 characters
     if (row[10].length > 100) return;
     // helpfulness should not be negative
     if (isNaN(row[11]) || row[11] < 0) return;
-    // console.log(row);
+
     outStream.write(`${row.join()}\n`);
   })
 }
 
-function convertEpochToTimestamp(epoch) {
-  // date must be in this format: epoch 13 digits, number
-  // if (isNaN(epoch) || epoch.length !== 13) return;
-  const review_date = new Date(Number(epoch)).toISOString().slice(0, 19).replace('T', ' ');
-  // console.log(`date: ${review_date}`);
-  return review_date;
+function parseDate(date) {
+  const dateAsInteger = parseInt(date);
+  formattedDate = isNaN(dateAsInteger) ? new Date(date) : new Date(dateAsInteger);
+  return formattedDate.toString() === 'Invalid Date' ? null : formattedDate.toISOString().slice(0, 19).replace('T', ' ');;
+  // const review_date = new Date(Number(date)).toISOString().slice(0, 19).replace('T', ' ');
+  // return review_date;
 }
 
 cleanReviews();
