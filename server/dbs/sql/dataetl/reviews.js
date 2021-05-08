@@ -32,9 +32,9 @@ async function cleanReviews() {
     // body should not be over 1000 characters
     if (row[5].length > 1000) return;
     // recommend should be a boolean (true, false)
-    if (row[6].toLowercase() !== 'true' && row[6].toLowercase() !== 'false') return;
+    if (row[6].toLowerCase() !== 'true' && row[6].toLowerCase() !== 'false') return;
     // reported should be a boolean (true, false)
-    if (row[7].toLowercase() !== 'true' && row[7].toLowercase() !== 'false') return;
+    if (row[7].toLowerCase() !== 'true' && row[7].toLowerCase() !== 'false') return;
     // reviewer_name should not be null or over 60 characters
     if (row[8] === null || row[8].length > 60) return;
     // reviewer_email should not be null or over 60 characters
