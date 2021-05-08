@@ -26,7 +26,7 @@ async function cleanReviews() {
     if (isNaN(row[2]) || row[2] < 1 || row[2] > 5) return;
     // parse review date to correct timestamp format
     row[3] = parseDate(row[3]);
-    if (row[3] === null || row[3].length === 0) return; 
+    if (row[3] === null || row[3].length === 0) return;
     // summary should not be over 500 characters
     if (row[4].length > 500) return;
     // body should not be over 1000 characters

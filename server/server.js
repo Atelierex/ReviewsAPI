@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-var db = require('./dbs/sql/index.js');
+const db = require('./dbs/sql/index.js');
 const port = 3000;
 
 app.get('/', (req, res) => {
