@@ -5,7 +5,8 @@ const getReviews = (product_id, callback) => {
   SELECT p.photo_url, r.* 
   FROM Reviews r 
   LEFT JOIN Photos p 
-  ON p.review_id = r.id AND r.product_id = '${product_id}' AND r.reported = 0`;
+  ON p.review_id = r.id
+  WHERE r.product_id = '${product_id}' AND r.reported = 0`;
 
   db.query(queryStr, (err, res) => {
     if (err) {
