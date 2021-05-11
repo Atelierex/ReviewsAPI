@@ -2,12 +2,12 @@ const db = require('../dbs/sql/index.js');
 
 const getReviews = (product_id, callback) => {
   const queryStr = `
-  SELECT p.photo_url, r.* 
+  SELECT GROUP_CONCAT(p.photo_url) AS photo_urls, GROUP_CONCAT(p.id) AS photo_ids, r.* 
   FROM Reviews r 
   LEFT JOIN Photos p 
   ON p.review_id = r.id
-  WHERE r.product_id = '${product_id}' AND r.reported = 0`;
-
+  WHERE r.product_id = '${product_id}' AND r.reported = 0
+  GROUP BY r.id`;
   db.query(queryStr, (err, res) => {
     if (err) {
       callback(err, null);

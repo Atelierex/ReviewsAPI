@@ -3,7 +3,6 @@ const reviews = require('../models').reviews;
 const getReviews = (req, res, next) => {
   const product_id = req.query.product_id || 1;
   reviews.getReviews(product_id, (err, data) => {
-    console.log(data);
     if (err) {
       res.status(422).send('Error: invalid product_id provided');
     } else {
@@ -13,7 +12,7 @@ const getReviews = (req, res, next) => {
       reviews['page'] = 0;
       reviews['count'] = data.length || 5;
       reviews['results'] = results;
-
+      console.log(data);
       for (let i = 0; i < data.length; i++) {
         const review = {};
         const photos = [];
@@ -26,11 +25,21 @@ const getReviews = (req, res, next) => {
         review['date'] = data[i].review_date;
         review['reviewer_name'] = data[i].reviewer_name;
         review['helpfulness'] = data[i].helpfulness;
-        photos.push(data[i].photo_url);
+
+        // split photos_urls of the same review_id and push into photos array
+        if (data[i].photo_urls !== null) {
+          const p_urls = data[i].photo_urls.split(',');
+          const p_ids = data[i].photo_ids.split(',');
+          for (let j = 0; j < p_urls.length; j++) {
+            photos.push({
+              id: Number(p_ids[j]),
+              url: String(p_urls[j])
+            })
+          }
+        }
         review['photos'] = photos;
         results.push(review);
       }
-
       res.status(200).send(reviews);
       next();
     }
