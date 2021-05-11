@@ -34,11 +34,12 @@ const getRecommend = (product_id, callback) => {
 
 const getCharacteristics = (product_id, callback) => {
   const queryStr = `
-  SELECT Characteristics.id, characteristic_name, characteristic_value
+  SELECT Characteristics.id, characteristic_name, avg(characteristic_value) as characteristic_value
   FROM Characteristics
   INNER JOIN Characteristic_Reviews
   ON characteristic_id = Characteristics.id
-  WHERE product_id = ${product_id}`;
+  WHERE product_id = ${product_id}
+  GROUP BY characteristic_name, characteristic_id`;
 
   db.query(queryStr, (err, res) => {
     if (err) {
