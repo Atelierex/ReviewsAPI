@@ -1,49 +1,54 @@
 const reviews = require('../models').reviews;
 
 const getReviews = (req, res, next) => {
-  const product_id = req.query.product_id || 1;
-  reviews.getReviews(product_id, (err, data) => {
-    if (err) {
-      res.status(422).send('Error: invalid product_id provided');
-    } else {
-      const reviews = {};
-      const results = [];
-      reviews['product'] = product_id;
-      reviews['page'] = 0;
-      reviews['count'] = data.length || 5;
-      reviews['results'] = results;
-      console.log(data);
-      for (let i = 0; i < data.length; i++) {
-        const review = {};
-        const photos = [];
-        review['review_id'] = data[i].id;
-        review['rating'] = data[i].rating;
-        review['summary'] = data[i].summary;
-        review['recommend'] = Boolean(data[i].recommend);
-        review['response'] = data[i].response === 'null' ? null : data[i].response;
-        review['body'] = data[i].body;
-        review['date'] = data[i].review_date;
-        review['reviewer_name'] = data[i].reviewer_name;
-        review['helpfulness'] = data[i].helpfulness;
+  const product_id = req.query.product_id;
+  if (isNaN(product_id)) {
+    res.status(422).send('Error: invalid product_id provided');
+  } else {
+    reviews.getReviews(product_id, (err, data) => {
+      if (err) {
+        res.status(422).send(err);
+      } else {
+        const reviews = {};
+        const results = [];
+        reviews['product'] = product_id;
+        reviews['page'] = 0;
+        reviews['count'] = data.length || 5;
+        reviews['results'] = results;
 
-        // split photos_urls of the same review_id and push into photos array
-        if (data[i].photo_urls !== null) {
-          const p_urls = data[i].photo_urls.split(',');
-          const p_ids = data[i].photo_ids.split(',');
-          for (let j = 0; j < p_urls.length; j++) {
-            photos.push({
-              id: Number(p_ids[j]),
-              url: String(p_urls[j])
-            })
+        for (let i = 0; i < data.length; i++) {
+          const review = {};
+          const photos = [];
+          review['review_id'] = data[i].id;
+          review['rating'] = data[i].rating;
+          review['summary'] = data[i].summary;
+          review['recommend'] = Boolean(data[i].recommend);
+          review['response'] = data[i].response === 'null' ? null : data[i].response;
+          review['body'] = data[i].body;
+          review['date'] = data[i].review_date;
+          review['reviewer_name'] = data[i].reviewer_name;
+          review['helpfulness'] = data[i].helpfulness;
+
+          // split photos_urls of the same review_id and push into photos array
+          if (data[i].photo_urls !== null) {
+            const p_urls = data[i].photo_urls.split(',');
+            const p_ids = data[i].photo_ids.split(',');
+            for (let j = 0; j < p_urls.length; j++) {
+              photos.push({
+                id: Number(p_ids[j]),
+                url: String(p_urls[j])
+              })
+            }
           }
+          review['photos'] = photos;
+          results.push(review);
         }
-        review['photos'] = photos;
-        results.push(review);
+        res.status(200).send(reviews);
+        next();
       }
-      res.status(200).send(reviews);
-      next();
-    }
-  })
+    })
+  }
+
 }
 
 const postReview = (req, res, next) => {

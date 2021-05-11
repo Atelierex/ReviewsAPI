@@ -10,35 +10,33 @@ const getMetadata = (req, res, next) => {
       res.status(404);
     } else {
       metadata['ratings'] = {};
-      metadata['ratings']["0"] = String(data[0]['SUM(rating = 0)']);
-      metadata['ratings']["1"] = String(data[0]['SUM(rating = 1)']);
-      metadata['ratings']["2"] = String(data[0]['SUM(rating = 2)']);
-      metadata['ratings']["3"] = String(data[0]['SUM(rating = 3)']);
-      metadata['ratings']["4"] = String(data[0]['SUM(rating = 4)']);
-      metadata['ratings']["5"] = String(data[0]['SUM(rating = 5)']);
-      metadata['recommend'] = {};
+      for (let i = 0; i < data.length; i++) {
+        metadata['ratings'][data[i].rating] = data[i].count;
+      }
       reviewsMeta.getRecommend(product_id, (err, data) => {
+        metadata['recommended'] = {};
         if (err) {
           res.status(404);
         } else {
-          metadata['recommend']['true'] = String(data[0]['SUM(recommend = 1)']);
-          metadata['recommend']['false'] = String(data[0]['SUM(recommend = 0)']);
+          metadata['recommended']['0'] = data[0]['not_recommended'];
+          metadata['recommended']['1'] = data[0]['recommended'];
+          reviewsMeta.getCharacteristics(product_id, (err, data) => {
+            metadata['characteristics'] = {};
+            if (err) {
+              res.status(404);
+            } else {
+              for (let i = 0; i < data.length; i++) {
+                const char = {};
+                char['id'] = data[i].id;
+                char['value'] = data[i].characteristic_value;
+                metadata['characteristics'][data[i].characteristic_name] = char;
+              }
+              res.send(metadata);
+              next();
+            }
+          })
         }
       })
-      reviewsMeta.getCharacteristics(product_id, (err, characteristics) => {
-        if (err) {
-          res.status(404);
-        } else {
-          for (var char of characteristics) {
-            const characteristic = {};
-            characteristic['id'] = char.id;
-            characteristic['value'] = String(char.characteristic_value);
-            metadata['characteristics'][char.characteristic_name] = characteristic;
-          }
-        }
-      })
-      res.send(metadata);
-      next();
     }
   })
 }

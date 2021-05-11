@@ -19,7 +19,7 @@ const getRatings = (product_id, callback) => {
 
 const getRecommend = (product_id, callback) => {
   const queryStr = `
-  SELECT SUM(recommend = 0), SUM(recommend = 1)
+  SELECT SUM(recommend = 0) as not_recommended, SUM(recommend = 1) as recommended
   FROM Reviews
   WHERE product_id = ${product_id}`;
 
