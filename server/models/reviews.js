@@ -46,7 +46,7 @@ const postCharacteristics = (product_id, characteristic, callback) => {
 
 const postCharReviews = (review_id, char_id, char_value, callback) => {
   const queryStr = `INSERT INTO Characteristic_Reviews (review_id, characteristic_id, characteristic_value)
-  VALUES ('${review_id}', '${char_id}', '${Object.values(char_value)[0]}')`;
+  VALUES ('${review_id}', '${char_id}', '${char_value}')`;
 
   db.query(queryStr, (err, res) => {
     if (err) {

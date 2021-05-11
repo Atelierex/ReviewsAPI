@@ -71,36 +71,30 @@ const postReview = (req, res, next) => {
       res.status(422).send('Error: Review body contains invalid entries');
     } else {
       const review_id = data.insertId;
-      let count = 0;
       for (var photo of req.body.photos) {
         if (isValidUrl(photo)) {
           reviews.postPhotos(review_id, photo, (err, data) => {
             if (err) {
               res.status(404);
+            } else {
+              res.status(201);
             }
-            count++;
-            if (count === req.body.photos.length - 1) {
-              for (char_name in req.body.characteristics) {
-                reviews.postCharacteristics(char_name, (err, data) => {
-                  if (err) {
-                    res.status(404);
-                  } else {
-                    const char_id = data.insertId;
-                    reviews.postCharReviews(review_id, char_id, req.body.characteristics[char_name], (err, data) => {
-                      if (err) {
-                        res.status(404);
-                      } else {
-                        res.status(201);
-                        next();
-                      }
-                    })
-                  }
-                })
-              }
-            }
-          })
+          }
+          )
         }
       }
+      const characteristics = req.body.characteristics;
+      for (char_id in characteristics) {
+        reviews.postCharReviews(review_id, char_id, characteristics[char_id], (err, data) => {
+          if (err) {
+            res.status(404);
+          } else {
+            res.status(201);
+          }
+        }
+        )
+      }
+      res.status(201).send('Created');
     }
   })
 }
