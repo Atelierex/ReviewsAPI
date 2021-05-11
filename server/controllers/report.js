@@ -1,14 +1,13 @@
-const helpful = require('../models').helpful;
+const report = require('../models').report;
 
 const reportReview = (req, res, next) => {
   const review_id = req.params.review_id;
-  helpful.reportReview(review_id, (err, data) => {
+  report.reportReview(review_id, (err, data) => {
     if (err) {
       res.status(400);
     } else {
-      console.log('helpful updated');
-      res.status(204);
-      next();
+      console.log('review reported');
+      res.status(204).end();
     }
   })
 }
