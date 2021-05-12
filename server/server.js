@@ -1,3 +1,4 @@
+require('newrelic');
 const express = require('express');
 const app = express();
 const { reviews, reviewsMeta, helpful, report } = require('./controllers/index.js');

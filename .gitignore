@@ -92,3 +92,6 @@ Thumbs.db
 
 # Dataset
 dataset/
+
+# Newrelic
+newrelic.js
