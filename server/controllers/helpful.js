@@ -6,7 +6,6 @@ const updateHelpful = (req, res, next) => {
     if (err) {
       res.status(400);
     } else {
-      console.log('review marked as helpful');
       res.status(204).end();
     }
   })

@@ -6,7 +6,6 @@ const reportReview = (req, res, next) => {
     if (err) {
       res.status(400);
     } else {
-      console.log('review reported');
       res.status(204).end();
     }
   })
