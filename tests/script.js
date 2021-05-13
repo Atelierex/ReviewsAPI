@@ -8,13 +8,13 @@ export let options = {
     http_req_duration: ['p(99)<2000'], // 99% of requests must complete below 2s
   },
   stages: [
-    { duration: '10s', target: 100 }, // simulate ramp-up of traffic from 1 to 100 users over 15 seconds
-    { duration: '10s', target: 500 }, // stay at 500 users for 30 seconds
-    { duration: '15s', target: 800 }, // ramp-up to 800 users over 30 seconds (peak hour starts)
-    { duration: '30s', target: 1000 }, // stay at 100 users for short amount of time (peak hour)
-    { duration: '15s', target: 800 }, // ramp-down to 800 users over 30 seconds (peak hour ends)
-    { duration: '10s', target: 500 }, // continue at 500 for additional 30 seconds
-    { duration: '10s', target: 0 }, // ramp-down to 0 users
+    { duration: '10s', target: 200 }, // simulate ramp-up of traffic from 1 to 100 users over 15 seconds
+    { duration: '10s', target: 700 }, // stay at 500 users for 30 seconds
+    { duration: '15s', target: 1500 }, // ramp-up to 1500 users over 30 seconds (peak hour starts)
+    { duration: '2m20s', target: 3000 }, // stay at 100 users for short amount of time (peak hour)
+    { duration: '15s', target: 1500 }, // ramp-down to 1500 users over 30 seconds (peak hour ends)
+    { duration: '10s', target: 1500 }, // continue at 500 for additional 30 seconds
+    { duration: '10s', target: 200 }, // ramp-down to 0 users
   ]
 };
 export default function () {

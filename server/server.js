@@ -12,5 +12,5 @@ app.put('/reviews/:review_id/helpful', helpful.updateHelpful);
 app.put('/reviews/:review_id/report', report.reportReview);
 
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`)
+  console.log(`Listening on PORT: ${port}`)
 })
