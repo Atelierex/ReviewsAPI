@@ -95,3 +95,6 @@ dataset/
 
 # Newrelic
 newrelic.js
+
+# SQL database
+sdc.sql

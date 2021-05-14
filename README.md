@@ -18,9 +18,13 @@
 
 ## About
 
+---
+
 - Reviews API is the backend infrastructure designed and created from scratch for our client's ecommerce website with the primary goal of improving the website's performance to handle up to 10,000 requests per second and replace the currently outdated system that could not handle large amounts of user traffic to the website.
 
 ## Built with
+
+---
 
 - [Node.js](https://nodejs.org/en/)
 - [Express](http://expressjs.com/)
@@ -32,21 +36,25 @@
 
 ## Schema
 
+---
+
 ![Schema Image](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/Final%20Schema.png)
 
 ## Overview
 
-- Designed and selected two DBMS technologies (RDBMS and NoSQL DBMS) taking performances and complexity into consideration. Designed a primary database (MySQL) and secondary database (Mongo).
-- Performed Extract, Transform, Load (ETL) process to transfer a large application dataset into MySQL.
-  - ~1 million records of Products
-  - ~5.5 million records of Reviews
-  - ~18 million records of Product's Characteristics Metadata
-  - ~2.5 million records of Reviews Photos
-- Designed and created API logic, defined routes expected by the API, integrated server and database.
+---
+
+- Designed and selected two DBMS technologies (**RDBMS** and **NoSQL DBMS**) taking performances and complexity into consideration. Designed a primary database (MySQL) and secondary database (Mongo).
+- Performed **Extract, Transform, Load (ETL)** process to transfer a large application dataset into MySQL.
+  - **~1 million records of Products**
+  - **~5.5 million records of Reviews**
+  - **~18 million records of Product's Characteristics Metadata**
+  - **~2.5 million records of Reviews Photos**
+  - **Designed and created API logic, defined routes expected by the API, integrated server and database.**
 - Performed DBMS and Service API stress testing with k6 integrated with New Relic in development environment (local machine).
 - Deployed DBMS and API onto separate EC2 instances (t2.micro).
 - Performed stress testing with loader.io integrated with New Relic in production environment.
-- Scaled the application to handle loads up to 10000 requests per second (RPS).
+- Scaled the application to handle loads up to 10,000 requests per second (RPS).
 
 ## Goals
 
@@ -56,9 +64,15 @@
 
 ## Challenges
 
+---
+
 ## Optimizations
 
+---
+
 ## Stress Testing
+
+---
 
 ### In development (k6)
 
@@ -69,6 +83,8 @@
 ![loader.io test snapshot](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/API-load-test-1000-users.png)
 
 ## API Documentation
+
+---
 
 ### List Reviews
 
