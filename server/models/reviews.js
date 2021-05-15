@@ -20,8 +20,8 @@ const getReviews = (product_id, callback) => {
 const postReview = (review, callback) => {
   const queryStr = `
   INSERT INTO Reviews (product_id, rating, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness)
-  VALUES ('${review.product_id}', '${review.rating}', '${review.summary}', '${review.body}', '${review.recommend}',
-  '${review.reported}', '${review.reviewer_name}', '${review.reviewer_email}', '${review.response}', '${review.helpfulness}')`;
+  VALUES (${db.escape(review.product_id)}, ${db.escape(review.rating)}, ${db.escape(review.summary)}, ${db.escape(review.body)}, ${db.escape(review.recommend)},
+  ${db.escape(review.reported)}, ${db.escape(review.reviewer_name)}, ${db.escape(review.reviewer_email)}, ${db.escape(review.response)}, ${db.escape(review.helpfulness)})`;
 
   db.query(queryStr, (err, res) => {
     if (err) {
@@ -33,7 +33,7 @@ const postReview = (review, callback) => {
 }
 
 const postCharacteristics = (product_id, characteristic, callback) => {
-  const queryStr = `INSERT INTO Characteristics (product_id, characteristic_name) VALUES ('${product_id}', '${characteristic})`;
+  const queryStr = `INSERT INTO Characteristics (product_id, characteristic_name) VALUES (${db.escape(product_id)}, ${db.escape(characteristic)})`;
 
   db.query(queryStr, (err, res) => {
     if (err) {
@@ -46,7 +46,7 @@ const postCharacteristics = (product_id, characteristic, callback) => {
 
 const postCharReviews = (review_id, char_id, char_value, callback) => {
   const queryStr = `INSERT INTO Characteristic_Reviews (review_id, characteristic_id, characteristic_value)
-  VALUES ('${review_id}', '${char_id}', '${char_value}')`;
+  VALUES (${db.escape(review_id)}, ${db.escape(char_id)}, ${db.escape(char_value)})`;
 
   db.query(queryStr, (err, res) => {
     if (err) {
@@ -58,7 +58,7 @@ const postCharReviews = (review_id, char_id, char_value, callback) => {
 }
 
 const postPhotos = (review_id, photo_url, callback) => {
-  const queryStr = `INSERT INTO Photos (review_id, photo_url) VALUES ('${review_id}', '${photo_url}')`;
+  const queryStr = `INSERT INTO Photos (review_id, photo_url) VALUES (${db.escape(review_id)}, ${db.escape(photo_url)})`;
 
   db.query(queryStr, (err, res) => {
     if (err) {

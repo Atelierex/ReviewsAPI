@@ -18,13 +18,9 @@
 
 ## About
 
----
-
 - Reviews API is the backend infrastructure designed and created from scratch for our client's ecommerce website with the primary goal of improving the website's performance to handle up to 10,000 requests per second and replace the currently outdated system that could not handle large amounts of user traffic to the website.
 
 ## Built with
-
----
 
 - [Node.js](https://nodejs.org/en/)
 - [Express](http://expressjs.com/)
@@ -36,13 +32,9 @@
 
 ## Schema
 
----
-
 ![Schema Image](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/Final%20Schema.png)
 
 ## Overview
-
----
 
 - Designed and selected two DBMS technologies (**RDBMS** and **NoSQL DBMS**) taking performances and complexity into consideration. Designed a primary database (MySQL) and secondary database (Mongo).
 - Performed **Extract, Transform, Load (ETL)** process to transfer a large application dataset into MySQL.
@@ -64,15 +56,9 @@
 
 ## Challenges
 
----
-
 ## Optimizations
 
----
-
 ## Stress Testing
-
----
 
 ### In development (k6)
 
@@ -83,8 +69,6 @@
 ![loader.io test snapshot](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/API-load-test-1000-users.png)
 
 ## API Documentation
-
----
 
 ### List Reviews
 

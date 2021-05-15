@@ -53,7 +53,6 @@ const getReviews = (req, res, next) => {
 
 const postReview = (req, res, next) => {
   const review = {};
-  const photos = [];
   review['product_id'] = req.body.product_id;
   review['rating'] = req.body.rating;
   review['summary'] = req.body.summary;
