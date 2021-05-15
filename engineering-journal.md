@@ -84,3 +84,10 @@ new Date().toISOString().slice(0, 19).replace('T', ' ');
 - Configured security group inbound rules in order to allow communication between my API service and DBMS on EC2. Able to make requests to all of the defined endpoints.
 - Stress tested the initial performance of the application on the cloud using [loader.io](http://loader.io). Slowly scaling the RPS from `10, 100, to 1000`. Unsurprisingly, the average response time for 1000 clients `(~3000ms)` was abysmal as compared to the average response time on my local machine `(~5-10ms)`.
 - Did some research on load balancing and decided to do more in-depth investigation on `NGINX` load balancer in order to hopefully improve the average response time on production environment.
+
+# 5/14/2021
+
+- Implemented NGINX as a load balancer using least_conn technique to distribute loads between servers and prioritize servers with the least amount of connections.
+- Created 2 more servers and noticed a dramatic decrease in response time (from 3500ms to 65ms).
+- Noticed a diminishing returns in response time with more than 3 servers and a load balancer so I came to the conclusion that `65ms` is the best I could get from horizontal scaling and that the next step would be vertical scaling which costs money.
+- Did code cleanup, reviews, and use `sql.escape()` to prevent SQL injection inserting malicious values into my database for all of my `INSERT` queries.
