@@ -59,7 +59,7 @@
 ## Goals
 
 1. `Response time (latency)`: <2000ms under load.
-2. `Throughput`: 100 RPS on EC2.
+2. `Throughput`: 1000 RPS on EC2.
 3. `Error rate`: <1% under load.
 
 ## Challenges
