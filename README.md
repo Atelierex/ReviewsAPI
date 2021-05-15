@@ -103,7 +103,7 @@ k6 run script.js
   ![k6 test snapshot](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/k6-ramp-up.png)
 
 - Stress testing (production)
-  ![loader.io test snapshot](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/api-load-test-1000-users.png)
+  ![loader.io test snapshot](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/API-load-test-1000-users.png)
 
 ## Optimizations
 
