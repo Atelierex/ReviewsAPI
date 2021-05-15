@@ -6,13 +6,14 @@
   <ul>
     <li><a href="#about">About</a></li>
     <li><a href="#built-with">Built With</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#schema">Schema</a></li>
     <li><a href="#overview">Overview</a></li>
     <li><a href="#goals">Goals</a></li>
     <li><a href="#challenges">Challenges</a></li>
     <li><a href="#optimizations">Optimizations</a></li>
-    <li><a href="#stress-testing">Stress Testing</a></li>
     <li><a href="#api-documentation">API Documentation</a></li>
+    <li><a href="#future-improvements">Future Improvements</a></li>
   </ul>
 </details>
 
@@ -30,9 +31,41 @@
 - loader.io (production/cloud environment stress testing)
 - Integrated with [NewRelic](https://newrelic.com/) to analyze service's average response time, error rate, and throughput.
 
+## Getting Started
+
+1. Clone this repo or fork to your own repo
+2. cd into the directory on your local machine
+3. Install dependencies
+
+```
+npm install
+```
+
+4. Start server
+
+```
+npm start
+```
+
+5. You are connected to a remote MySQL database hosted on AWS EC2 instance and can test out the API endpoints (see <a href="#api-documentation">API documentation</a>)
+
+```
+localhost:3000/reviews?product_id=1
+```
+
+6. Run tests
+
+```
+cd load-tests
+```
+
+```
+k6 run script.js
+```
+
 ## Schema
 
-![Schema Image](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/Final%20Schema.png)
+![Schema Image](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/final-sql-schema.png)
 
 ## Overview
 
@@ -56,17 +89,38 @@
 
 ## Challenges
 
+(for more details see engineering-journal)
+
+### Data ETL
+
+- One of the early challenges that I faced was transforming the given data set to fit into MySQL database schema. Since MySQL does not have built-in `BOOLEAN` type and instead all `TRUE` and `FALSE` value was converted into `0` and stored as `TINYINT`. I had to set `TRUE` and `FALSE` values to `0` and `1` before loading into the database.
+
+### Average Response Time
+
+- I was able to achieve `1000 RPS` on development environment (local machine) with `5-10ms` average response time stress testing with k6. However, when deployed onto AWS EC2 and stress testing with loader.io, I noticed my average response time jumped to `~3500ms` for `1000 RPS`.
+
+- Stress testing (development)
+  ![k6 test snapshot](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/k6-ramp-up.png)
+
+- Stress testing (production)
+  ![loader.io test snapshot](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/api-load-test-1000-users.png)
+
 ## Optimizations
 
-## Stress Testing
+### createPool
 
-### In development (k6)
+- Replaced MySQL createConnection with createPool since it allows for more queries to be executed at the same time whereas createConnection only has a single connection and would affect performance.
 
-![k6 test snapshot](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/k6-ramp-up.png)
+### Horizontal Scaling
 
-### In production (loader.io)
-
-![loader.io test snapshot](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/API-load-test-1000-users.png)
+- To lower my average response time and increase performance, I decided to use `NGINX` as a load balancer with the built-in [Least Connection](https://www.nginx.com/blog/choosing-nginx-plus-load-balancing-techniques/#:~:text=With%20the%20Least%20Connections%20method,it%20with%20the%20least_conn%20directive.) method and created 2 more servers on AWS in order to distribute the requests for evenly. With horizontal scaling, I was able to lower my response time from `~3500ms` to `~65ms` for `1000 RPS`.
+- Horizontal scaling
+  ![horizontal scaling](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/horizontal-scaling.png)
+- `~3500ms` -> `~500ms` for `1000 RPS` and `12% error rate` with 2 servers
+  ![loader-io-2-servers](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/loader-io-2-servers.png)
+- `~500ms` -> `~65ms` for `1000 RPS` and `0% error rate` with 3 servers
+  ![loader-io-3-servers](https://raw.githubusercontent.com/May-Take-A-Second/ReviewsAPI/main/assets/loader-io-3-servers.png)
+- After 3 servers, I noticed a diminishing returns in response time and concluded `~65ms` is the best I could get from horizontal scaling and that the next step would be `vertical scaling` which costs money.
 
 ## API Documentation
 
@@ -225,3 +279,8 @@ Returns a list of reviews for a particular product. This list does not include a
 - `review_id` Required ID of the review to update
 
 **Success Status Code:** `204`
+
+## Future Improvements
+
+- Dockerize server for easier deployment.
+- Implement Redis caching.
