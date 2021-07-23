@@ -89,7 +89,7 @@ k6 run script.js
 
 ## Challenges
 
-(for more details see engineering-journal)
+(for more details see [engineering-journal](engineering-journal.md))
 
 ### Data ETL
 
@@ -284,3 +284,4 @@ Returns a list of reviews for a particular product. This list does not include a
 
 - Dockerize server for easier deployment.
 - Implement Redis caching.
+- Explore vertical scaling & other options.
